@@ -1,0 +1,33 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Pack
+        run: |
+          arrTag=(${GITHUB_REF//\// })
+          VERSION="${arrTag[2]}"
+          VERSION="${VERSION:1}"
+          echo "VERSION $VERSION"
+          dotnet pack --output artifacts --configuration Release --no-restore --no-build -p:Version=$VERSION -p:TreatWarningsAsErrors=false
+      - name: Push with dotnet
+        run: dotnet nuget push artifacts/*.nupkg --api-key ${{ secrets.API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: artifacts
+          path: artifacts
