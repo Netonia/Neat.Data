@@ -21,7 +21,8 @@ namespace Neat.Data
         /// Sets the command to be executed.
         /// Warning: The Command will be recreated (CommandText, CommandType, Parameters, ...)
         /// </summary>
-        /// <param name="commandText">query command</param>
+        /// <param name="commandText">command text</param>
+        /// <param name="commandType">command type</param>
         /// <returns></returns>
         public FluentQueryBuilder AssignCommand(string commandText, CommandType commandType = CommandType.Text) // params object[] parameters
         {
