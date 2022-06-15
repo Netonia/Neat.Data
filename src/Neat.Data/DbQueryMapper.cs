@@ -31,7 +31,7 @@ namespace Neat.Data
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DBHelper" /> class.
+        /// Initializes a new instance of the <see cref="DbQueryMapper" /> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
         /// <param name="providerName">The database provider.</param>
@@ -630,7 +630,6 @@ namespace Neat.Data
         /// <summary>
         /// Executes the command and returns a reader.
         /// </summary>
-        /// <param name="commandText">The command text.</param>
         /// <returns>The <see cref="DbDataReader"/>.</returns>
         private DbDataReader ExecuteReader()
         {
@@ -762,7 +761,7 @@ namespace Neat.Data
         }
 
         /// <summary>
-        /// Adds a value to the end of the <see cref="DbQueryMapper.Parameters"/> property.
+        /// Adds a value to the Parameters property.
         /// </summary>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="value">The value to be added. Null value will be replaced by System.DBNull.Value.</param>
@@ -785,7 +784,7 @@ namespace Neat.Data
         }
 
         /// <summary>
-        /// Adds a value to the end of the <see cref="DbQueryMapper.Parameters"/> property.
+        /// Adds a value to the Parameters property.
         /// </summary>
         /// <param name="name">The name of the parameter.</param>
         /// <param name="value">The value to be added. Null value will be replaced by System.DBNull.Value.</param>
