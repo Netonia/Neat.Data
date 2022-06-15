@@ -19,12 +19,12 @@ namespace Neat.Data
 
         /// <summary>
         /// Sets the command to be executed.
+        /// Warning: The Command will be recreated (CommandText, CommandType, Parameters, ...)
         /// </summary>
         /// <param name="commandText">query command</param>
         /// <returns></returns>
-        public FluentQueryBuilder AssignCommand(string commandText) // CommandType commandType , params object[] parameters
+        public FluentQueryBuilder AssignCommand(string commandText, CommandType commandType = CommandType.Text) // params object[] parameters
         {
-            // The Command will be recreated (CommandText, Parameters, ...)
             _db.Command = _db.CreateCommand(commandText);
             _db.Command.Connection = _db.CreateConnection();
             return this;
@@ -84,45 +84,34 @@ namespace Neat.Data
             return this;
         }
 
-        public List<T> ExecuteList<T>() where T : new()
-        {
-            return _db.ExecuteList<T>();
-        }
-
-        public List<T> ExecuteList<T>(Converter<DbDataReader, T> converter) where T : new()
-        {
-            return _db.ExecuteList<T>(converter);
-        }
-
         public int ExecuteNonQuery()
         {
             return _db.ExecuteNonQuery();
         }
 
-        public T ExecuteObject<T>(Converter<DbDataReader, T> converter) where T : new()
+        public List<T> ToList<T>() where T : new()
+        {
+            return _db.ExecuteList<T>();
+        }
+
+        public List<T> ToList<T>(Converter<DbDataReader, T> converter) where T : new()
+        {
+            return _db.ExecuteList<T>(converter);
+        }
+
+        public T ToObject<T>(Converter<DbDataReader, T> converter) where T : new()
         {
             return _db.ExecuteObject<T>(converter);
         }
 
-        public T ExecuteObject<T>() where T : new()
+        public T ToObject<T>() where T : new()
         {
             return _db.ExecuteObject<T>();
         }
 
-        public T ExecuteScalar<T>()
+        public T ToScalar<T>()
         {
             return _db.ExecuteScalar<T>();
         }
-
-        ///// <summary>
-        ///// Includes an active transaction to the current query.
-        ///// </summary>
-        ///// <param name="transaction"></param>
-        ///// <returns></returns>
-        //public FluentCommander WithTransaction(DbTransaction transaction)
-        //{
-        //    _dbc.Transaction = transaction;
-        //    return this;
-        //}
     }
 }
